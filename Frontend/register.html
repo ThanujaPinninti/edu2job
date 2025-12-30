@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU2JOB - Register</title>
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('Images/3.gif');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+        }
+
+        .register-card {
+            position: relative;
+            z-index: 2;
+            width: 380px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .register-card h2 {
+            margin: 10px 0 20px;
+            font-size: 26px;
+            color: #333;
+        }
+
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #aaa;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 95%;
+            padding: 12px;
+            border: none;
+            background: #412ddc;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .password-strength {
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: -5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #412ddc;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="overlay"></div>
+<div class="register-card">
+    <h2>Create Account</h2>
+    <div id="errorBox" class="error"></div>
+    <input id="username" type="text" placeholder="Username">
+    <input id="email" type="email" placeholder="Email">
+    <input id="phone" type="text" placeholder="Phone Number">
+    <input id="password" type="password" placeholder="Password" onkeyup="checkStrength()">
+    <div id="strengthMsg" class="password-strength"></div>
+    <input id="confirmPassword" type="password" placeholder="Confirm Password">
+    <select id="question">
+        <option value="">— Select Security Question —</option>
+        <option value="favorite_person">Favorite Person?</option>
+        <option value="favorite_thing">Favorite Thing?</option>
+        <option value="favorite_color">Favorite Color?</option>
+        <option value="birth_place">Birth Place?</option>
+    </select>
+    <input id="answer" type="text" placeholder="Your Answer">
+    <button class="btn" onclick="registerUser()">Register</button>
+    <p style="margin-top:15px;">Already have an account? <a href="login.html">Login</a></p>
+</div>
+
+<script>
+    function validatePassword(password) {
+        const rules = [/[A-Z]/,/[a-z]/,/[0-9]/,/[!@#$%^&*]/,];
+
+        return (
+            password.length >= 8 &&
+            rules.every(rule => rule.test(password))
+        );
+    }
+
+    function checkStrength() {
+        const pass = document.getElementById("password").value;
+        const msg = document.getElementById("strengthMsg");
+
+        if (pass.length === 0) {
+            msg.textContent = "";
+            return;
+        }
+
+        let strength = 0;
+
+        if (/[A-Z]/.test(pass)) strength++;
+        if (/[a-z]/.test(pass)) strength++;
+        if (/[0-9]/.test(pass)) strength++;
+        if (/[!@#$%^&*]/.test(pass)) strength++;
+        if (pass.length >= 8) strength++;
+
+        if (strength <= 2) {
+            msg.textContent = "Weak";
+            msg.style.color = "red";
+        } 
+        else if (strength === 3 || strength === 4) {
+            msg.textContent = "Medium";
+            msg.style.color = "orange";
+        } 
+        else if (strength === 5) {
+            msg.textContent = "Strong";
+            msg.style.color = "green";
+        }
+    }
+    async function registerUser() {
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const question = document.getElementById("question").value;
+        const answer = document.getElementById("answer").value;
+        const errorBox = document.getElementById("errorBox");
+
+        if (password !== confirmPassword) {
+            errorBox.textContent = "Passwords do not match!";
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            errorBox.textContent =
+                "Password must include: Capital letter, small letter, number, symbol, and be 8+ characters.";
+            return;
+        }
+
+        const res = await fetch("http://127.0.0.1:5000/auth/register", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+             body: JSON.stringify({username, email, phone, password, confirm: confirmPassword, question, answer })});
+
+        const data = await res.json();
+
+        if (data.error) {
+            errorBox.textContent = data.error;
+        } else {
+            alert("Registration successful!");
+            window.location.href = "profile.html";
+        }
+    }
+</script>
+</body>
+</html>

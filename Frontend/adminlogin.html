@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU2JOB - Admin Login</title>
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('Images/2.gif');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 2;
+            width: 350px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .login-card h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #aaa;
+        }
+
+        .btn {
+            width: 95%;
+            padding: 12px;
+            background: #de1c0f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+        }
+
+        .forgot {
+            float: right;
+            font-size: 13px;
+            color: #412ddc;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="login-card">
+    <h2>Admin Login</h2>
+
+    <div id="errorBox" class="error"></div>
+
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+
+    <div class="forgot" onclick="forgotPassword()">Forgot Password?</div>
+
+    <button class="btn" onclick="loginUser()">Login</button>
+</div>
+
+<script>
+    // Hardcoded admin credentials (frontend-only)
+    const ADMIN_EMAIL = "admin@edu2job.com";
+    const ADMIN_PASSWORD = "admin123";
+
+    function loginUser() {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorBox = document.getElementById("errorBox");
+
+        errorBox.textContent = "";
+
+        if (!email || !password) {
+            errorBox.textContent = "Please enter email and password.";
+            return;
+        }
+
+        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+            sessionStorage.setItem("adminLoggedIn", "true");
+            alert("Login Successful!");
+            window.location.href = "admin_dashboard.html";
+        } else {
+            errorBox.textContent = "Invalid admin credentials!";
+        }
+    }
+
+    function forgotPassword() {
+        alert("Contact system administrator to reset password.");
+    }
+</script>
+
+</body>
+</html>
