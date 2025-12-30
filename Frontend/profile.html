@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title> Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0b0b0b;
+    color:#000;
+}
+.delete-icon {
+    color: red;
+    cursor: pointer;
+    font-size: 16px;
+}
+.delete-icon:hover {
+    color: darkred;
+}
+.list-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    background:#fafafa;
+}
+.dashboard{
+    display:flex;
+    min-height:100vh;
+}
+.sidebar{
+    width:230px;
+    background:#111;
+    padding:20px;
+    color:#fff;
+}
+.sidebar h2{
+    margin-bottom:30px;
+    color:#0a66c2;
+}
+.sidebar a{
+    display:block;
+    padding:10px;
+    margin-bottom:10px;
+    text-decoration:none;
+    color:#ccc;
+    border-radius:8px;
+}
+.sidebar a.active,
+.sidebar a:hover{
+    background:#0a66c2;
+    color:#fff;
+}
+.main{
+    flex:1;
+    padding:30px;
+    background:#cdd0d4;
+    overflow-y:auto;
+}
+.container{
+    max-width:900px;
+    margin:auto;
+}
+.card{
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+}
+.card h3{
+    margin-top:0;
+}
+label{
+    font-weight:bold;
+    display:block;
+    margin-top:10px;
+}
+input,select,textarea{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+}
+textarea{ resize:vertical; }
+.fresher-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:15px;
+}
+.fresher-row input{
+    width:auto;
+    margin:0;
+}
+.fresher-row label{
+    margin:0;
+    font-weight:normal;
+}
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 15px 0;
+    display: none;
+}
+.profile-card input[type="file"] {
+    margin: 10px 0;
+}
+.btn-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+.btn{
+    margin-top:12px;
+    padding:8px 16px;
+    border-radius:20px;
+    border:1px solid #0a66c2;
+    background:#fff;
+    color:#0a66c2;
+    cursor:pointer;
+}
+.btn.primary{
+    background:#0a66c2;
+    color:#fff;
+    border:none;
+}
+.list-item{
+    margin-top:10px;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    background:#fafafa;
+}
+.danger {
+    background:red;
+    color:#fff;
+    border:none;
+}
+input:disabled,
+textarea:disabled,
+select:disabled {
+    background: #f9f9f9;
+    color: #333;
+    border: 1px solid #ddd;
+    font-weight: normal;
+    cursor: default;
+}
+select:disabled {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.cert-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+}
+.cert-info {
+    max-width: 90%;
+}
+.cert-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: #111;
+}
+.cert-company {
+    font-size: 13px;
+    color: #555;
+    margin-top: 2px;
+}
+.cert-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #0d6efd;
+    text-decoration: none;
+}
+.cert-link:hover {
+    text-decoration: underline;
+}
+.cert-delete {
+    color: #d11a2a;
+    cursor: pointer;
+    font-size: 15px;
+    margin-left: 10px;
+}
+.cert-delete:hover {
+    color: #a00;
+}
+.project-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+.project-info {
+    max-width: 90%;
+}
+.project-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111;
+}
+.project-year {
+    font-weight: normal;
+    color: #555;
+    margin-left: 6px;
+}
+.project-desc {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #444;
+}
+.project-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #0d6efd;
+    text-decoration: none;
+}
+.project-link:hover {
+    text-decoration: underline;
+}
+.project-delete {
+    color: #d11a2a;
+    cursor: pointer;
+    font-size: 16px;
+}
+.project-delete:hover {
+    color: #a00;
+}
+</style>
+</head>
+
+<body>
+<div class="dashboard">
+<div class="sidebar">
+    <h2>EDU2JOB</h2>
+    <a href="profile.html" class="active">Profile</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="job_predictions.html">Job Predictions</a>
+    <a href="applications.html">Applications</a>
+    <a href="career.html">Career</a>
+    <a href="login.html">Logout</a>
+</div>
+<div class="main">
+<div class="container">
+    <div class="card profile-card">
+    <h3>Profile Photo</h3>
+    <img id="profilePreview"
+         src=""
+         class="profile-img">
+    <input type="file" id="profilePhoto" accept=".png,.jpg,.jpeg,.gif">
+    <div class="btn-group">
+        <button class="btn primary" onclick="uploadProfilePhoto()">Upload Photo</button>
+        <button class="btn primary" onclick="deleteProfilePhoto()">Delete Photo</button>
+    </div>
+</div>
+
+<div class="card">
+    <h3>User Information</h3>
+    <label>Username</label>
+    <input type="text" id="username">
+    <label>Email</label>
+    <input type="email" id="email">
+    <label>Address</label>
+    <textarea id="address"></textarea>
+    <label>Phone Number</label>
+    <input type="text" id="phone">
+    <label>Work Status</label>
+    <select id="workStatus">
+        <option>Fresher</option>
+        <option>Working</option>
+        <option>Open to Work</option>
+    </select>
+    <label>LinkedIn Link</label>
+    <input type="text" id="linkedin">
+    <label>GitHub Link</label>
+    <input type="text" id="github">
+    <label>Gender</label>
+    <select id="gender" onchange="showOtherGender(this.value)">
+        <option value="">-- Select --</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+    </select>
+    <input type="text" id="otherGender" placeholder="Specify gender" style="display:none">
+    <label>Date of Birth</label>
+    <input type="date" id="dob">
+    <label>Marital Status</label>
+    <select id="maritalStatus">
+        <option value="">-- Select --</option>
+        <option>Single</option>
+        <option>Married</option>
+        <option>Single Parent</option>
+    </select>
+    <div style="margin-top:10px;">
+        <button class="btn" id="editBtn" onclick="enableEdit()">Edit</button>
+        <button class="btn primary" id="saveBtn" onclick="saveProfile()">Save</button>
+    </div>
+</div>
+
+
+<!-- 2. RESUME -->
+<div class="card">
+    <h3>Resume</h3>
+    <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.jpg">
+    <div style="margin-top:10px;">
+        <button class="btn primary" onclick="uploadResume()">Upload</button>
+        <button class="btn danger" onclick="deleteResume()">Delete</button>
+    </div>
+    <p id="resumeStatus" style="margin-top:10px;color:green;"></p>
+<div id="resumePreview" style="margin-top:10px; display:none;">
+    📄 <a href="http://127.0.0.1:5000/profile/resume/view" id="resumeLink" target="_blank">View uploaded resume</a>
+</div>
+</div>
+
+<!-- 3. SKILLS -->
+<div class="card">
+    <h3>Key Skills</h3>
+    <div id="skillList"></div>
+    <input type="text" id="skillInput"
+           placeholder="Add skill (Java, SQL, Python...)">
+    <button class="btn" onclick="addSkill()">Add Skill</button>
+    <button class="btn primary" onclick="saveSkills()">Save Skills</button>
+</div>
+
+<!-- 4. PERSONAL DETAILS -->
+<div class="card">
+    <h3>Languages Known</h3>
+    <div id="langList"></div>
+    <input type="text" id="langInput"
+           placeholder="Add language (English, Telugu)">
+    <button class="btn" onclick="addLanguage()">Add Language</button>
+    <button class="btn primary" onclick="saveLanguages()">Save</button>
+</div>
+
+<!-- 5. PROJECTS -->
+<div class="card">
+    <h3>Projects</h3>
+    <div id="projectList"></div>
+    <input type="text" id="projectName" placeholder="Project Name">
+    <input type="text" id="projectYear" placeholder="Year">
+    <textarea id="projectDesc" placeholder="About Project"></textarea>
+    <input type="text" id="projectLink" placeholder="Project Link">
+    <button class="btn" onclick="addProject()">Add Project</button>
+    <button class="btn primary" onclick="saveProjects()">Save</button>
+</div>
+
+<!-- EDUCATION CARD -->
+<div class="card">
+    <h3>Education Information</h3>
+    <div id="educationList"></div>
+    <label>Degree</label>
+    <select id="degree">
+    <option value="">Select Degree</option>
+    <option value="0">MCA (Post Graduate)</option>
+    <option value="1">B.Tech (Under Graduate)</option>
+    <option value="2">BSC (Under Graduate)</option>
+    <option value="3">BCom</option>
+    <option value="4">Diploma</option>
+    <option value="5">Intermediate</option>
+    <option value="6">10th Class</option>
+    </select>
+    <label>Specialization</label>
+    <input type="text" id="specialization" placeholder="Computer Science">
+    <label>CGPA</label>
+    <input type="number" step="0.1" id="cgpa" placeholder="5 - 10">
+    <label>Start Year</label>
+    <input type="number" id="startYear" placeholder="2019">
+    <label>End Year</label>
+    <input type="number" id="endYear" placeholder="2023">
+    <div style="margin-top:10px;">
+        <button class="btn" onclick="addEducation()">Add Education</button>
+        <button class="btn primary" onclick="saveEducation()">Save</button>
+    </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="card">
+    <h3>Experience</h3>
+    <div id="experienceList"></div>
+    <label>Company Name</label>
+    <input type="text" id="companyName">
+    <label>Start Date</label>
+    <input type="date" id="startDate">
+    <label>End Date</label>
+    <input type="date" id="endDate">
+    <label>Description</label>
+    <textarea id="description"></textarea>
+    <button class="btn" onclick="addExperience()">Add Experience</button>
+    <button class="btn primary" onclick="saveExperience()">Save</button>
+</div>
+
+<!-- 8. CERTIFICATIONS -->
+<div class="card">
+    <h3>Certifications</h3>
+    <div id="certList"></div>
+    <input type="text" id="certCompany" placeholder="Company">
+    <input type="text" id="certCourse" placeholder="Course">
+    <input type="text" id="certLink" placeholder="Certificate Link">
+    <div style="margin-top:10px;">
+        <button class="btn" onclick="addCert()">Add Certification</button>
+        <button class="btn primary" onclick="saveCert()">Save</button>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+
+// GLOBAL CONFIG 
+const BASE_URL = "http://127.0.0.1:5000";
+const token = localStorage.getItem("token");
+
+async function api(url, method = "GET", body = null, isFile = false) {
+    let options = { method, headers: {} };
+    if (!isFile) options.headers["Content-Type"] = "application/json";
+    if (token) options.headers["Authorization"] = "Bearer " + token;
+    if (body) options.body = isFile ? body : JSON.stringify(body);
+    const res = await fetch(BASE_URL + url, options);
+    return await res.json();
+}
+async function uploadProfilePhoto() {
+    const fileInput = document.getElementById("profilePhoto");
+    const file = fileInput.files[0];
+    if (!file) {
+        alert("Photo upload skipped");
+        return;   
+    }
+    const allowedTypes = ["image/png", "image/jpeg", "image/gif"];
+    if (!allowedTypes.includes(file.type)) {
+        alert("Only PNG, JPG, JPEG, GIF allowed");
+        return;
+    }
+    const formData = new FormData();
+    formData.append("photo", file);
+    const res = await api("/profile/photo/upload", "POST", formData, true);
+    alert(res.message);
+    if (res.success) {
+        document.getElementById("profilePreview").src =
+            URL.createObjectURL(file);
+    }
+}
+async function uploadProfilePhoto() {
+    const file = document.getElementById("profilePhoto").files[0];
+    if (!file) return alert("Select a photo");
+    const formData = new FormData();
+    formData.append("photo", file);
+    const res = await api("/profile/photo/upload", "POST", formData, true);
+    alert(res.message);
+    if (res.success) {
+        document.getElementById("profilePreview").src =
+            URL.createObjectURL(file);
+        document.getElementById("profilePreview").style.display = "block";
+    }
+}
+async function loadProfilePhoto() {
+    const img = document.getElementById("profilePreview");
+    img.src = BASE_URL + "/profile/photo/get";
+    img.style.display = "block";
+}
+loadProfilePhoto();
+async function deleteProfilePhoto() {
+    const res = await api("/profile/photo/delete", "DELETE");
+    alert(res.message);
+    if (res.success) {
+        const img = document.getElementById("profilePreview");
+        img.src = "";
+        img.style.display = "none";
+    }
+}
+
+console.log("JS LOADED");
+function formatDateForInput(dateStr) {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    if (isNaN(d)) return "";
+    return d.toISOString().split("T")[0];
+}
+function setFormDisabled(disabled) {
+    const fields = ["username", "email", "address", "phone", "workStatus",
+        "linkedin", "github", "gender", "dob", "maritalStatus"];
+    fields.forEach(id => document.getElementById(id).disabled = disabled);
+    document.getElementById("saveBtn").disabled = disabled;
+    document.getElementById("editBtn").disabled = !disabled;
+}
+async function loadProfile() {
+    const data = await api("/profile/get");
+    if (!data.success) return;
+    username.value = data.username || "";
+    email.value = data.email || "";
+    address.value = data.address || "";
+    phone.value = data.phone || "";
+    workStatus.value = data.work_status || "";
+    linkedin.value = data.linkedin || "";
+    github.value = data.github || "";
+    gender.value = data.gender || "";
+    dob.value = formatDateForInput(data.dob);
+    maritalStatus.value = data.marital_status || "";
+    setFormDisabled(true);
+}
+function enableEdit() { setFormDisabled(false); }
+async function saveProfile() {
+    const body = {
+        username: username.value,
+        email: email.value,
+        address: address.value,
+        phone: phone.value,
+        work_status: workStatus.value,
+        linkedin: linkedin.value,
+        github: github.value,
+        gender: gender.value,
+        dob: dob.value,
+        marital_status: maritalStatus.value
+    };
+    const res = await api("/profile/profile/save", "POST", body);
+    alert(res.message);
+    if (res.success) setFormDisabled(true);
+}
+function showOtherGender(value) {
+    document.getElementById("otherGender").style.display = value === "Other" ? "block" : "none";
+}
+loadProfile();
+
+
+
+
+let skills = [];
+document.addEventListener("DOMContentLoaded", loadSkills);
+function addSkill() {
+    let s = document.getElementById("skillInput").value.trim();
+    if (s === "") return;
+
+    skills.push({ skill: s });
+    renderSkills();
+    document.getElementById("skillInput").value = "";
+}
+function renderSkills() {
+    let list = document.getElementById("skillList");
+    list.innerHTML = "";
+    skills.forEach((s) => {
+        list.innerHTML += `
+            <div class="list-item">
+                <span>${s.skill}</span>
+                <i class="fa-solid fa-trash delete-icon"
+                   onclick="deleteSkill(${s.id || 0})"
+                   title="Delete"></i>
+            </div>
+        `;
+    });
+}
+async function loadSkills() {
+    let res = await api("/profile/skills/get");
+    skills = res.skills || [];
+    renderSkills();
+}
+async function saveSkills() {
+    let skillNames = skills.map(s => s.skill);
+    let res = await api("/profile/skills/save", "POST", { skills: skillNames });
+    alert(res.message);
+    loadSkills();
+}
+async function deleteSkill(id) {
+    if (!id) return alert("Save skills first");
+    if (!confirm("Delete this skill?")) return;
+    await api("/profile/skills/delete", "POST", { skill_id: id });
+    skills = skills.filter(s => s.id !== id);
+    renderSkills();
+}
+
+
+let languages = [];
+document.addEventListener("DOMContentLoaded", loadLanguages);
+function addLanguage() {
+    let l = document.getElementById("langInput").value.trim();
+    if (l === "") return;
+    languages.push({ language: l });
+    renderLanguages();
+    document.getElementById("langInput").value = "";
+}
+function renderLanguages() {
+    let list = document.getElementById("langList");
+    list.innerHTML = "";
+    languages.forEach((l) => {
+        list.innerHTML += `
+            <div class="list-item">
+                <span>${l.language}</span>
+                <i class="fa-solid fa-trash delete-icon"
+                   onclick="deleteLanguage(${l.id || 0})"
+                   title="Delete"></i>
+            </div>
+        `;
+    });
+}
+async function loadLanguages() {
+    let res = await api("/profile/languages/get");
+    languages = res.languages || [];
+    renderLanguages();
+}
+async function saveLanguages() {
+    let langNames = languages.map(l => l.language);
+    let res = await api("/profile/languages/save", "POST", { languages: langNames });
+    alert(res.message);
+    loadLanguages();
+}
+async function deleteLanguage(id) {
+    if (!id) return alert("Save languages first");
+    if (!confirm("Delete this language?")) return;
+    await api("/profile/languages/delete", "POST", { language_id: id });
+    languages = languages.filter(l => l.id !== id);
+    renderLanguages();
+}
+
+let projects = [];
+document.addEventListener("DOMContentLoaded", loadProjects);
+function addProject() {
+    let name = projectName.value.trim();
+    if (!name) return alert("Project name required");
+    projects.push({
+        name,
+        year: projectYear.value,
+        desc: projectDesc.value,
+        link: projectLink.value
+    });
+    clearInputs();
+    renderProjects();
+}
+function renderProjects() {
+    projectList.innerHTML = "";
+    projects.forEach(p => {
+        projectList.innerHTML += `
+        <div class="project-card">
+            <div class="project-info">
+                <div class="project-title">
+                    ${p.name}
+                    ${p.year ? `<span class="project-year">(${p.year})</span>` : ""}
+                </div>
+                ${p.desc ? `<div class="project-desc">${p.desc}</div>` : ""}
+                ${p.link ? `
+                <a class="project-link" href="${p.link}" target="_blank">
+                    View Project
+                </a>` : ""}
+            </div>
+            ${p.id ? `
+            <i class="fa-solid fa-trash project-delete"
+               onclick="deleteProject(${p.id})"></i>` : ""}
+        </div>
+        `;
+    });
+}
+async function loadProjects() {
+    let res = await api("/profile/projects/get");
+    projects = res.projects || [];
+    renderProjects();
+}
+async function saveProjects() {
+    let res = await api("/profile/projects/save", "POST", { projects });
+    alert(res.message);
+    loadProjects();
+}
+async function deleteProject(id) {
+    if (!confirm("Delete this project?")) return;
+    await api("/profile/projects/delete", "POST", { project_id: id });
+    projects = projects.filter(p => p.id !== id);
+    renderProjects();
+}
+function clearInputs() {
+    projectName.value = "";
+    projectYear.value = "";
+    projectDesc.value = "";
+    projectLink.value = "";
+}
+
+let education = [];
+const educationList = document.getElementById("educationList");
+function addEducation() {
+    let degree = parseInt(document.getElementById("degree").value);
+    let spec = document.getElementById("specialization").value.trim();
+    let cgpa = parseFloat(document.getElementById("cgpa").value);
+    let start = parseInt(document.getElementById("startYear").value);
+    let end = parseInt(document.getElementById("endYear").value);
+    let currentYear = new Date().getFullYear();
+    if (isNaN(degree)) return alert("Select Degree");
+    if (!spec) return alert("Specialization required");
+    if (isNaN(cgpa) || cgpa < 5 || cgpa > 10) return alert("CGPA 5–10");
+    if (isNaN(start) || start < 1950 || start > currentYear) return alert("Invalid start year");
+    if (isNaN(end) || end < start || end > currentYear) return alert("Invalid end year");
+    education.push({ degree, spec, cgpa, start, end });
+    renderEducation();
+    document.getElementById("degree").value = "";
+    specialization.value = cgpa.value = startYear.value = endYear.value = "";
+}
+function renderEducation() {
+    educationList.innerHTML = "";
+    education.forEach((e, i) => {
+        educationList.innerHTML += `
+            <div class="list-item">
+                <b>${e.degreeText || ""}</b>
+                (${e.start} - ${e.end})<br>
+                ${e.spec} — CGPA: ${e.cgpa}
+                <i class="fa-solid fa-trash delete-icon"
+                   onclick="deleteEducation(${i})"></i>
+            </div>
+        `;
+    });
+}
+async function deleteEducation(index) {
+    if (!confirm("Delete?")) return;
+
+    let edu = education[index];
+
+    if (edu.id) {
+        await api("/profile/education/delete", "POST", { id: edu.id });
+    }
+
+    education.splice(index, 1);
+    renderEducation();
+}
+async function loadEducation() {
+    let res = await api("/profile/education/get");
+    education = (res.education || []).map(e => ({
+        ...e,
+        degreeText: e.degree   
+    }));
+    renderEducation();
+}
+async function saveEducation() {
+    if (!education.length) return alert("Add education");
+    let payload = education.map(e => ({
+        degree: e.degree,   
+        spec: e.spec,
+        cgpa: e.cgpa,
+        start: e.start,
+        end: e.end
+    }));
+    let res = await api("/profile/education/save", "POST", { education: payload });
+    alert(res.message);
+    loadEducation();
+}
+document.addEventListener("DOMContentLoaded", loadEducation);
+
+let experiences = [];
+let experienceList;
+function toDDMMYYYY(dateStr) {
+    if (!dateStr) return "";
+    if (dateStr.includes("-")) {
+        const [y, m, d] = dateStr.split("-");
+        return `${d}/${m}/${y}`;
+    }
+    if (dateStr.includes("/")) return dateStr;
+    return "";
+}
+function formatDate(dateStr) {
+    return dateStr || "Present";
+}
+document.addEventListener("DOMContentLoaded", () => {
+    experienceList = document.getElementById("experienceList");
+    loadExperience();
+});
+async function loadExperience() {
+    let res = await api("/profile/experience/get");
+    experiences = res.experiences || [];
+    renderExperience();
+}
+function addExperience() {
+    if (!companyName.value.trim())
+        return alert("Company name required");
+    experiences.push({
+        id: null,
+        c: companyName.value.trim(),
+        s: toDDMMYYYY(startDate.value),
+        e: toDDMMYYYY(endDate.value),
+        d: description.value
+    });
+    clearExperienceInputs();
+    renderExperience();
+}
+function renderExperience() {
+    experienceList.innerHTML = "";
+    experiences.forEach(ex => {
+        experienceList.innerHTML += `
+        <div class="list-item">
+            <b>${ex.c}</b>
+            (${formatDate(ex.s)} → ${formatDate(ex.e)})<br>
+            ${ex.d || ""}
+
+            ${ex.id ? `
+            <i class="fa-solid fa-trash cert-delete"
+               onclick="deleteExperience(${ex.id})"></i>` : ""}
+        </div>`;
+    });
+}
+async function saveExperience() {
+    const payload = experiences.map(ex => ({
+        ...ex,
+        s: toDDMMYYYY(ex.s),
+        e: toDDMMYYYY(ex.e)
+    }));
+    let res = await api("/profile/experience/save", "POST", {
+        experiences: payload
+    });
+    alert(res.message);
+    loadExperience();
+}
+async function deleteExperience(id) {
+    if (!confirm("Delete this experience?")) return;
+
+    await api("/profile/experience/delete", "POST", { id });
+    experiences = experiences.filter(e => e.id !== id);
+    renderExperience();
+}
+function clearExperienceInputs() {
+    companyName.value = "";
+    startDate.value = "";
+    endDate.value = "";
+    description.value = "";
+}
+
+let certificates = [];
+document.addEventListener("DOMContentLoaded", loadCertifications);
+function addCert() {
+    let company = certCompany.value.trim();
+    let course = certCourse.value.trim();
+    let link = certLink.value.trim();
+    if (!course) return alert("Course required");
+    certificates.push({
+        id: null,        
+        company,
+        course,
+        link
+    });
+    clearCertInputs();
+    renderCerts();
+}
+function renderCerts() {
+    certList.innerHTML = "";
+    certificates.forEach(c => {
+        certList.innerHTML += `
+        <div class="cert-card">
+            <div class="cert-info">
+                <div class="cert-title">${c.course}</div>
+                <div class="cert-company">${c.company || ""}</div>
+                ${c.link ? `
+                <a class="cert-link" href="${c.link}" target="_blank">
+                    View Certificate
+                </a>` : ""}
+            </div>
+            ${c.id ? `
+            <i class="fa-solid fa-trash cert-delete"
+               onclick="deleteCert(${c.id})"></i>` : ""}
+        </div>
+        `;
+    });
+}
+async function loadCertifications() {
+    let res = await api("/profile/certifications/get");
+    certificates = res.certificates || [];
+    renderCerts();
+}
+async function saveCert() {
+    let res = await api("/profile/certifications/save", "POST", { certificates });
+    alert(res.message);
+    loadCertifications();
+}
+async function deleteCert(id) {
+    if (!confirm("Delete this certification?")) return;
+    await api("/profile/certifications/delete", "POST", { cert_id: id });
+    certificates = certificates.filter(c => c.id !== id);
+    renderCerts();
+}
+function clearCertInputs() {
+    certCompany.value = "";
+    certCourse.value = "";
+    certLink.value = "";
+}
+
+async function uploadResume() {
+    let file = document.getElementById("resumeFile").files[0];
+    if (!file) return alert("Select a resume");
+    let formData = new FormData();
+    formData.append("resume", file);
+    let res = await api("/profile/resume/upload", "POST", formData, true);
+    document.getElementById("resumeStatus").innerText = res.message;
+     loadResume();
+}
+async function deleteResume() {
+    let res = await api("/profile/resume/delete", "DELETE");
+    document.getElementById("resumeStatus").innerText = res.message;
+   document.getElementById("resumePreview").style.display = "none";
+}
+async function loadResume() {
+    let res = await api("/profile/resume", "GET");
+    let preview = document.getElementById("resumePreview");
+    let link = document.getElementById("resumeLink");
+    if (res.success) {
+        preview.style.display = "block";
+        link.href = "http://127.0.0.1:5000/profile/resume/view";
+        link.innerText = res.file_name;
+    } else {
+        preview.style.display = "none";
+    }
+}
+loadResume();
+
+window.onload = function () {
+    loadProfile();
+    loadProfilePhoto();
+    loadResume();
+    loadSkills();
+    loadLanguages();
+    loadProjects();
+    loadEducation();
+    loadExperience();
+    loadCertifications();
+};
+
+</script>
+
+</body>
+</html>

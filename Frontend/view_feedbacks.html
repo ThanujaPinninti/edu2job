@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Feedbacks</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .box {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid #007bff;
+        }
+        .date {
+            font-size: 12px;
+            color: #666;
+        }
+        .rating {
+            font-weight: bold;
+            color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+
+<h2>User Feedbacks</h2>
+
+<div id="feedbackContainer"></div>
+
+<script>
+/* Your feedback data (dates + rating + text) */
+const rawFeedbacks = `
+2025-12-29 12:40:23 | Rating: 3 | Feedback: Nice
+2025-12-29 12:40:46 | Rating: 3 | Feedback: good
+2025-12-29 13:39:28 | Rating: 3 | Feedback: ok
+2025-12-29 15:49:20 | Rating: 4 | Feedback: Good
+2025-12-29 18:24:06 | Rating: 4 | Feedback: More
+`;
+
+const container = document.getElementById("feedbackContainer");
+
+rawFeedbacks.trim().split("\n").forEach(line => {
+    const parts = line.split("|");
+
+    const date = parts[0].trim();
+    const rating = parts[1].replace("Rating:", "").trim();
+    const feedback = parts[2].replace("Feedback:", "").trim();
+
+    const div = document.createElement("div");
+    div.className = "box";
+    div.innerHTML = `
+        <div class="date">${date}</div>
+        <div class="rating">Rating: ${rating} ⭐</div>
+        <div><b>Feedback:</b> ${feedback}</div>
+    `;
+
+    container.appendChild(div);
+});
+</script>
+
+<a href="admin_dashboard.html">⬅ Back to Dashboard</a>
+
+</body>
+</html>
